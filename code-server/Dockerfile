@@ -2,7 +2,6 @@ FROM oven/bun:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR=/root/.nvm
-ENV NODE_VERSION=26.7.0
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -16,15 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
+    && nvm install node \
+    && nvm alias default node \
     && nvm use default
 
-ENV PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:/root/.bun/bin:$PATH"
+ENV PATH="$NVM_DIR/versions/node/$(ls $NVM_DIR/versions/node 2>/dev/null | tail -n 1)/bin:/root/.bun/bin:$PATH"
 
-RUN curl -fsSL https://antigravity.google/install.sh | bash || true
-
-ENV PATH="/root/.antigravity/bin:/root/.local/bin:$PATH"
+RUN npm install -g @openai/codex || npm install -g codex-cli || true
 
 RUN npm install -g shadcn@latest \
     && ln -sf $(which shadcn) /usr/local/bin/shadcn
@@ -36,7 +33,8 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension github.github-vscode-theme || true \
     && code-server --install-extension dsznajder.es7-react-js-snippets || true \
     && code-server --install-extension vscode-icons-team.vscode-icons || true \
-    && code-server --install-extension formulahendry.auto-rename-tag || true
+    && code-server --install-extension formulahendry.auto-rename-tag || true \
+    && code-server --install-extension openai.codex || true
 
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
