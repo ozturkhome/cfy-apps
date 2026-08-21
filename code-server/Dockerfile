@@ -23,11 +23,10 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
 
 ENV PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
-RUN code-server --install-extension dbaeumer.vscode-eslint \
-    && code-server --install-extension esbenp.prettier-vscode \
-    && code-server --install-extension bradlc.vscode-tailwindcss \
-    && code-server --install-extension christian-kohler.path-intellisense \
-    && code-server --install-extension modelcontextprotocol.mcp
+RUN code-server --install-extension dbaeumer.vscode-eslint || true \
+    && code-server --install-extension esbenp.prettier-vscode || true \
+    && code-server --install-extension bradlc.vscode-tailwindcss || true \
+    && code-server --install-extension christian-kohler.path-intellisense || true
 
 RUN mkdir -p /root/.config/opencode && \
     echo '{\n\
