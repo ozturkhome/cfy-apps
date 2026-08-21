@@ -19,12 +19,12 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
     && nvm alias default node \
     && nvm use default
 
-ENV PATH="$NVM_DIR/versions/node/$(ls $NVM_DIR/versions/node 2>/dev/null | tail -n 1)/bin:/root/.bun/bin:$PATH"
+ENV PATH="$NVM_DIR/versions/node/v20.18.0/bin:/root/.bun/bin:$PATH"
 
-RUN npm install -g @openai/codex || npm install -g codex-cli || true
-
-RUN npm install -g shadcn@latest \
-    && ln -sf $(which shadcn) /usr/local/bin/shadcn
+RUN . "$NVM_DIR/nvm.sh" \
+    && npm install -g shadcn@latest \
+    && npm install -g @openai/codex || true \
+    && ln -sf $(which shadcn 2>/dev/null || echo "/root/.nvm/versions/node/v20.18.0/bin/shadcn") /usr/local/bin/shadcn || true
 
 RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension esbenp.prettier-vscode || true \
@@ -34,7 +34,7 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension dsznajder.es7-react-js-snippets || true \
     && code-server --install-extension vscode-icons-team.vscode-icons || true \
     && code-server --install-extension formulahendry.auto-rename-tag || true \
-    && code-server --install-extension openai.codex || true
+    && code-server --install-extension Continue.continue || true
 
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
