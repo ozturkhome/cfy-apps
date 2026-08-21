@@ -32,17 +32,8 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension bradlc.vscode-tailwindcss || true \
     && code-server --install-extension christian-kohler.path-intellisense || true
 
-RUN mkdir -p /root/.config/opencode && \
-    echo '{\n\
-  "$schema": "https://opencode.ai/config.json",\n\
-  "mcp": {\n\
-    "shadcn": {\n\
-      "command": "bunx",\n\
-      "args": ["--bun", "shadcn@latest", "mcp"],\n\
-      "enabled": true\n\
-    }\n\
-  }\n\
-}' > /root/.config/opencode/opencode.json
+RUN mkdir -p /root/.config/opencode \
+    && bunx --bun shadcn@latest mcp init --client opencode || true
 
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
