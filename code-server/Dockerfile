@@ -39,7 +39,6 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension vscode-icons-team.vscode-icons || true \
     && code-server --install-extension formulahendry.auto-rename-tag || true \
     && code-server --install-extension openai.chatgpt || true \
-    && code-server --install-extension GoogleCloudTools.cloudcode || true
 
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
