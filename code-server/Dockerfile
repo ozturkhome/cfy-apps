@@ -1,4 +1,3 @@
-# Resmi Bun tabanlı Linux imajı
 FROM oven/bun:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -12,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     build-essential \
     && curl -fsSL https://code-server.dev/install.sh | sh \
+    && curl -fsSL https://opencode.ai/install.sh | sh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -26,10 +26,24 @@ ENV PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 RUN code-server --install-extension dbaeumer.vscode-eslint \
     && code-server --install-extension esbenp.prettier-vscode \
     && code-server --install-extension bradlc.vscode-tailwindcss \
-    && code-server --install-extension christian-kohler.path-intellisense
+    && code-server --install-extension christian-kohler.path-intellisense \
+    && code-server --install-extension modelcontextprotocol.mcp
 
+RUN mkdir -p /root/.config/opencode && \
+    echo '{\n\
+  "$schema": "https://opencode.ai/config.json",\n\
+  "mcp": {\n\
+    "shadcn": {\n\
+      "command": "bunx",\n\
+      "args": ["--bun", "shadcn@latest", "mcp"],\n\
+      "enabled": true\n\
+    }\n\
+  }\n\
+}' > /root/.config/opencode/opencode.json
+
+RUN mkdir -p /home/dev
 WORKDIR /home/dev
 
 EXPOSE 9000 3000
 
-CMD ["sh", "-c", "bunx --bun shadcn@latest mcp init --client vscode && code-server --bind-addr 0.0.0.0:9000 --auth password /home/dev"]
+CMD ["code-server", "--bind-addr", "0.0.0.0:9000", "--auth", "password", "/home/dev"]
