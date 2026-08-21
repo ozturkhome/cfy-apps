@@ -19,7 +19,10 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
     && nvm alias default node \
     && nvm use default
 
-ENV PATH="/root/.nvm/versions/node/current/bin:/root/.bun/bin:$PATH"
+ENV PATH="/root/.nvm/versions/node/current/bin:/root/.bun/bin:/root/.local/bin:$PATH"
+
+RUN curl -fsSL https://antigravity.google/cli/install.sh | bash || true \
+    && ln -sf /root/.local/bin/agy /usr/local/bin/agy || true
 
 RUN . "$NVM_DIR/nvm.sh" \
     && nvm use default \
@@ -35,7 +38,8 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension dsznajder.es7-react-js-snippets || true \
     && code-server --install-extension vscode-icons-team.vscode-icons || true \
     && code-server --install-extension formulahendry.auto-rename-tag || true \
-    && code-server --install-extension openai.chatgpt || true
+    && code-server --install-extension openai.chatgpt || true \
+    && code-server --install-extension GoogleCloudTools.cloudcode || true
 
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
