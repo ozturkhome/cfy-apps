@@ -42,4 +42,4 @@ WORKDIR /home/dev
 
 EXPOSE 9000 3000
 
-CMD ["code-server", "--bind-addr", "0.0.0.0:9000", "--auth", "password", "/home/dev"]
+CMD ["sh", "-c", "echo '=== SYSTEM VERSIONS ===' && bun --version && node --version && (antigravity --version || echo 'antigravity: Not installed') && echo '=======================' && code-server --bind-addr 0.0.0.0:9000 --auth password /home/dev"]
