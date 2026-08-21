@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ide:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PASSWORD=${SERVICE_PASSWORD_CODE}
+    volumes:
+      - data:/home
+    restart: unless-stopped
+
+volumes:
+  data:
