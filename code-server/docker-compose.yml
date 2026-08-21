@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  bun-ide:
+  code-server:
     build:
       context: .
       dockerfile: Dockerfile
