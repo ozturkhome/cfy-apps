@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ENV PATH="/root/.opencode/bin:/root/.local/bin:$PATH"
+RUN if [ -f /root/.opencode/bin/opencode ]; then ln -s /root/.opencode/bin/opencode /usr/local/bin/opencode; fi || true
+
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
     && nvm install $NODE_VERSION \
