@@ -11,12 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     build-essential \
     && curl -fsSL https://code-server.dev/install.sh | sh \
-    && curl -fsSL https://opencode.ai/install.sh | sh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-ENV PATH="/root/.opencode/bin:/root/.local/bin:$PATH"
-RUN if [ -f /root/.opencode/bin/opencode ]; then ln -s /root/.opencode/bin/opencode /usr/local/bin/opencode; fi || true
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
@@ -25,6 +21,11 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
     && nvm use default
 
 ENV PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
+
+RUN curl -fsSL https://opencode.ai/install | bash \
+    || npm install -g opencode-ai
+
+ENV PATH="/root/.opencode/bin:/root/.local/bin:$PATH"
 
 RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension esbenp.prettier-vscode || true \
