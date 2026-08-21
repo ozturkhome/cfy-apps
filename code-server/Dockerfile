@@ -2,7 +2,7 @@ FROM oven/bun:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR=/root/.nvm
-ENV NODE_VERSION=20.18.0
+ENV NODE_VERSION=26.7.0
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
