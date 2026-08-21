@@ -1,11 +1,9 @@
-# Resmi Bun tabanlı Linux imajı
 FROM oven/bun:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR=/root/.nvm
 ENV NODE_VERSION=20.18.0
 
-# 1. Temel paketler ve code-server kurulumu
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
@@ -16,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Node.js ve NVM kurulumu
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
     && nvm install $NODE_VERSION \
@@ -25,16 +22,13 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
 
 ENV PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:/root/.bun/bin:$PATH"
 
-# 3. Google Antigravity CLI Kurulumu
 RUN curl -fsSL https://antigravity.google/install.sh | bash || true
 
 ENV PATH="/root/.antigravity/bin:/root/.local/bin:$PATH"
 
-# 4. shadcn Global Kurulumu (PATH garantisi ile)
 RUN npm install -g shadcn@latest \
     && ln -sf $(which shadcn) /usr/local/bin/shadcn
 
-# 5. code-server Eklentileri
 RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension esbenp.prettier-vscode || true \
     && code-server --install-extension bradlc.vscode-tailwindcss || true \
@@ -44,7 +38,6 @@ RUN code-server --install-extension dbaeumer.vscode-eslint || true \
     && code-server --install-extension vscode-icons-team.vscode-icons || true \
     && code-server --install-extension formulahendry.auto-rename-tag || true
 
-# 6. Dev klasörünü oluşturma ve çalışma dizini ayarlama
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
 
