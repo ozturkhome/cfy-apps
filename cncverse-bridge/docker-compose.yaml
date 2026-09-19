@@ -2,33 +2,24 @@ version: "3.8"
 
 services:
   cncverse:
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-    environment:
-      VERSION: "tiny11"
-      RAM_SIZE: "3G"
-      CPU_CORES: "2"
-      DISK_SIZE: "32G"
+    image: budtmo/docker-android:emulator_11.0
+    privileged: true
 
     devices:
       - /dev/kvm
-      - /dev/net/tun
 
-    cap_add:
-      - NET_ADMIN
+    environment:
+      EMULATOR_DEVICE: "Samsung Galaxy S10"
+      WEB_VNC: "true"
 
     ports:
-      - "9006:8006"
-      - "9090:8080"
+      - "6080:6080"
+      - "5555:5555"
 
     volumes:
-      - cncverse_data:/storage
-      - ./oem:/oem
+      - android-data:/home/androidusr
 
     restart: unless-stopped
-    stop_grace_period: 2m
 
 volumes:
-  cncverse_data:
+  android-data:
