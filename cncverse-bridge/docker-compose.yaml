@@ -20,7 +20,7 @@ services:
 
     ports:
       - "9006:8006"
-      - "8080:8080"
+      - "9090:8080"
 
     volumes:
       - cncverse_data:/storage
