@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  cncverse:
+    image: dockurr/windows:latest
+    container_name: cncverse
+
+    environment:
+      VERSION: "tiny11"
+      RAM_SIZE: "3G"
+      CPU_CORES: "2"
+      DISK_SIZE: "32G"
+
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+
+    cap_add:
+      - NET_ADMIN
+
+    ports:
+      - "8006:8006"
+      - "8080:8080"
+
+    volumes:
+      - cncverse_data:/storage
+      - ./oem:/oem
+
+    restart: unless-stopped
+    stop_grace_period: 2m
+
+volumes:
+  cncverse_data:
