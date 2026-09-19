@@ -2,8 +2,9 @@ version: "3.8"
 
 services:
   cncverse:
-    image: dockurr/windows:latest
-    container_name: cncverse
+    build:
+      context: .
+      dockerfile: Dockerfile
 
     environment:
       VERSION: "tiny11"
