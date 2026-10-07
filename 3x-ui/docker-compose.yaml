@@ -3,7 +3,7 @@ version: "3.8"
 services:
   3xui:
     image: ghcr.io/mhsanaei/3x-ui:v3.9.0
-    container_name: 3xui
+    container_name: 3xui_app
     hostname: "3xui"
     # hostname: yourhostname <- optional
     # Optional hard memory cap. When set, the panel derives its Go soft limit
