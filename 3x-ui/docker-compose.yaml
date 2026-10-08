@@ -42,5 +42,7 @@ services:
       # XUI_DB_TYPE: "postgres"
       # XUI_DB_DSN: "postgres://xui:xui@postgres:5432/xui?sslmode=disable"
     tty: true
-    network_mode: host
+    ports:
+      - "2053:2053"
+      - "8443:443"
     restart: unless-stopped
