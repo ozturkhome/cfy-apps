@@ -43,22 +43,8 @@ services:
       # XUI_DB_TYPE: "postgres"
       # XUI_DB_DSN: "postgres://xui:xui@postgres:5432/xui?sslmode=disable"
     tty: true
-    restart: unless-stopped
     ports:
-      - "2053:2053/tcp"
-      - "2096:2096/tcp"
-    networks:
-      - coolify
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coolify"
-      # VLESS TLS over TCP 443
-      - "traefik.tcp.routers.vless443.rule=HostSNI(`${VLESS_DOMAIN}`)"
-      - "traefik.tcp.routers.vless443.entrypoints=https"
-      - "traefik.tcp.routers.vless443.tls.passthrough=true"
-      - "traefik.tcp.routers.vless443.service=vless443"
-      - "traefik.tcp.services.vless443.loadbalancer.server.port=443"
-
-networks:
-  coolify:
-    external: true
+      - "2096:2096"
+      - "2053:2053"
+      - "8443:443"
+    restart: unless-stopped
