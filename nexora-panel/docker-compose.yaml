@@ -17,7 +17,7 @@ version: "3.8"
 # starting fresh: the database is the one thing the panel cannot migrate itself.
 services:
   panel:
-    image: ghcr.io/nexora-vpn/panel:v0.0.4
+    image: ghcr.io/nexora-vpn/panel:v0.0.5
     restart: unless-stopped
     container_name: nexora-panel
     environment:
